@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>chatterbox</title>
+    <link rel="stylesheet" href="styles/styles.css">
+
+    
+  </head>
+  <body>
+    <div id="main">
+      <h1>chatterbox</h1>
+
+      <select id="roomSelect" onchange="app.fetch()">
+      </select>
+
+      <form id="formMessage">
+      <!-- Message:<br> -->
+      <input type="text" name="message" id="chatMsg">
+      <!-- <br> -->
+      <input type="submit" value="Submit" id="inputButton" onClick="app.addMessage(message)">
+      </form>
+      <div id="chats"></div>
+
+    </div>
+  </body>
+  <!-- dependencies -->
+  <script src="bower_components/underscore/underscore-min.js"></script>
+  <script src="bower_components/jquery/jquery.min.js"></script>
+    <!-- your scripts -->
+  <!-- // <script src="env/config.js"></script> -->
+  <script src="scripts/app.js"></script>
+  <script>
+    app.init()
+  </script>
+</html>
