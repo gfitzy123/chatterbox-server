@@ -1,42 +1,15 @@
-/*************************************************************
-
-You should implement your request handler function in this file.
-
-requestHandler is already getting passed to http.createServer()
-in basic-server.js, but it won't work as is.
-
-You'll have to figure out a way to export this function from
-this file and include it in basic-server.js so that it actually works.
-
-*Hint* Check out the node module documentation at http://nodejs.org/api/modules.html.
-
-**************************************************************/
-
 var exports = module.exports = {};
 
-// exports.requestHandler = requestHandler();
+var results = [{"username":"Jono","message":"Do my bidding!"}]
 
-
-var results = [{"username":"Jono","message":"Do my bidding!"}] 
 module.exports.requestHandler = function(request, response) {
-  // Request and Response come from node's http module.
-  //
-  // They include information about both the incoming request, such as
-  // headers and URL, and about the outgoing response, such as its status
-  // and content.
-  //
-  // Documentation for both request and response can be found in the HTTP section at
-  // http://nodejs.org/documentation/api/
 
-  // Do some basic logging.
-  //
-  // Adding more logging to your server can be an easy way to get passive
-  // debugging help, but you should always be careful about leaving stray
-  // console.logs in your code.
   console.log("Serving request type " + request.method + " for url " + request.url);
+
   var isValidUrl = (request.url === "/classes/messages" || request.url === "/classes/room1" || request.url === "/classes/chatterbox")
-  // The outgoing status.
+  
   response.statusCode = 404;
+  
   if (isValidUrl && request.method === "POST") {
     response.statusCode = 201;
   } else if (isValidUrl && (request.method === "GET" || request.method === "OPTIONS")){
@@ -45,13 +18,9 @@ module.exports.requestHandler = function(request, response) {
     response.statusCode = 404;
   }
 
-  // See the note below about CORS headers.
+  
   var headers = defaultCorsHeaders;
 
-  // Tell the client we are sending them plain text.
-  //
-  // You will need to change this if you are sending something
-  // other than plain text, like JSON or HTML.
   headers['Content-Type'] = "application/json";
 
   // .writeHead() writes to the request line and headers of the response,

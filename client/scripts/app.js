@@ -2,7 +2,7 @@ var app = {}
 
 app.init = function() {
   this.rooms = {}
-	this.server = 'http://127.0.0.1:3000/classes/chatterbox';
+	this.server = 'http://127.0.0.1:3000/classes/messages';
 	this.$roomSelect = $('#roomSelect');
 	this.$chats = $('#chats');
 	this.$formMessage = $('#formMessage');
@@ -37,24 +37,27 @@ app.fetch = function(message) {
 		success: function(data) {
       // on successful fetch(), delete all child divs of #chats
       app.clearMessages();
+      app.addRoom("Messages");
       // iterate through data from server
-			_.each(data.results, function(item){
+      _.each(data.results, function(item){
         // populate select dropdown element with rooms
-        app.addRoom(item.roomname);
 
         // only add messages of currently selected room
         var currentRoom = app.$roomSelect.val(); 
-        // app.addMessage(item.text );
-        if (item.roomname === currentRoom) {
-          app.addMessage(item.text, item.username)
-        }
-			})
-		},
-		error: function(data) {
-			// See: https://developer.mozilla.org/en-US/docs/Web/API/console.error
-			console.error('chatterbox: Failed to receive message');
-		}
-	});
+  // ADDED THIS DURING SERVER SPRINT BECAUSE THERE IS NO ROOMNAME DATA
+        app.addMessage(item.message, item.username);
+       
+        // if (item.roomname === currentRoom) {
+        //   app.addMessage(item.text, item.username)
+        // }
+        app.$chats.append($('<div></div>').text(item.username + ": " + item.message))
+      })
+    },
+    error: function(data) {
+      // See: https://developer.mozilla.org/en-US/docs/Web/API/console.error
+      console.error('chatterbox: Failed to receive message');
+    }
+  });
 };
 
 app.addRoom = function(name) {
@@ -65,8 +68,7 @@ app.addRoom = function(name) {
 };
 
 app.addMessage = function(message, user) {
-
-	app.$chats.append($('<div></div>').text(user + ": " + message))
+  // app.send({"username":"test", "message": message})
 	
 };
 
